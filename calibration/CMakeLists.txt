@@ -21,8 +21,7 @@ add_executable(calibration
 target_link_libraries(calibration PRIVATE dotbot_libs)
 
 target_include_directories(calibration PRIVATE
-    ${NRFX_MDK_INCLUDE}
-    ${CMSIS_CORE_INCLUDE}
+    # Nordic MDK + ARM CMSIS-Core headers come transitively via dotbot_libs.
     ${DOTBOT_LIBS}/drv/hdlc          # for hdlc.h (its own folder, not flat under drv/)
 )
 

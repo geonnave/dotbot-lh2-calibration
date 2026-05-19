@@ -54,25 +54,10 @@ add_link_options(
     -nostartfiles
 )
 
-# ── Nordic MDK + ARM CMSIS-Core via FetchContent ─────────────────────
-include(FetchContent)
-
-FetchContent_Declare(nrfx
-    GIT_REPOSITORY https://github.com/NordicSemiconductor/nrfx.git
-    GIT_TAG        v3.5.0
-    GIT_SHALLOW    TRUE
-)
-FetchContent_Declare(cmsis_core
-    GIT_REPOSITORY https://github.com/ARM-software/CMSIS_5.git
-    GIT_TAG        5.9.0
-    GIT_SHALLOW    TRUE
-)
-FetchContent_MakeAvailable(nrfx cmsis_core)
-
-set(NRFX_MDK_INCLUDE   ${nrfx_SOURCE_DIR}/mdk                       CACHE INTERNAL "Nordic MDK headers")
-set(CMSIS_CORE_INCLUDE ${cmsis_core_SOURCE_DIR}/CMSIS/Core/Include  CACHE INTERNAL "ARM CMSIS-Core headers")
-
-# ── dotbot-libs ──────────────────────────────────────────────────────
+# ── dotbot-libs (owns Nordic + CMSIS FetchContent) ───────────────────
+# Linking `dotbot_libs` (in calibration/CMakeLists.txt) brings in the
+# Nordic MDK (nrf.h) and ARM CMSIS-Core (core_cm33.h) headers
+# transitively via dotbot-libs's exported dotbot_nordic INTERFACE.
 # Default: the bundled git submodule. Override with -DDOTBOT_LIBS=...
 # for cross-repo iteration.
 set(DOTBOT_LIBS "${CMAKE_CURRENT_SOURCE_DIR}/dotbot-libs"
